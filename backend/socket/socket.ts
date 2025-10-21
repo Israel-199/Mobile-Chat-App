@@ -1,6 +1,7 @@
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import { Server as SocketIOServer ,Socket} from "socket.io";
+import { registerUserEvents } from "./userEvent";
 
 export function initiailizeSocket(server:any):SocketIOServer{
     const io = new SocketIOServer(server,{
@@ -20,16 +21,17 @@ export function initiailizeSocket(server:any):SocketIOServer{
             if(err){
                 return next(new Error("Authentication error: invalid token"));
             }
-
             let userData = decoded.user;
             socket.data= userData;
             socket.data.userId = userData.id;
             next();
     });
-    });
+ });
   io.on("connection",async(socket:Socket)=>{
     const userId = socket.data.userId;
     console.log(`User connected: ${socket.data.userId}`);
+
+    registerUserEvents(io,socket);
 
     socket.on("disconnect",()=>{
         console.log(`User disconnected: ${userId}`);

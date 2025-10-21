@@ -4,6 +4,8 @@ import { colors } from '@/constants/theme'
 import { BackButtonProps } from '@/types'
 import { useRouter } from 'expo-router'
 import { verticalScale } from '@/utils/styling'
+import { CaretLeft } from 'phosphor-react-native'
+import Typo from './Typo'
 
 const BackButton = ({
     style,

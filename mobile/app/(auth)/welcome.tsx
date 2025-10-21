@@ -20,19 +20,19 @@ const Welcome = () => {
      </View>
       <Animated.Image entering={FadeIn.duration(700).springify()} source={require("../../assets/images/welcome.png")} style={styles.welcomeImage} resizeMode={"contain"}></Animated.Image>
      <View style={{marginBottom:spacingY._35}}>
-       <Typo color={colors.white} size={15} fontWeight={"800"}>
+       <Typo color={colors.white} size={13} fontWeight={"800"}>
         Stay Connected
        </Typo>
 
-       <Typo color={colors.white} size={15} fontWeight={"800"}>
+       <Typo color={colors.white} size={13} fontWeight={"800"}>
         with your friends
        </Typo>
 
-       <Typo color={colors.white} size={15} fontWeight={"800"}>
+       <Typo color={colors.white} size={13} fontWeight={"800"}>
         and family
        </Typo>
      </View>
-       <Button onPress={()=>{router.push("/(auth)/register")}}><Typo fontWeight={"600"} size={10}>Get Started</Typo></Button>
+       <Button onPress={()=>{router.push("/(auth)/register")}}><Typo fontWeight={"600"} size={9}>Get Started</Typo></Button>
      </View>
     </ScreenWrapper>
   )
@@ -49,7 +49,7 @@ const styles=StyleSheet.create({
     backgroundColor:colors.neutral900
   },
   welcomeImage:{
-    height:verticalScale(140),
+    height:verticalScale(130),
     aspectRatio:1,
     alignSelf:"center",
     marginBottom:22
