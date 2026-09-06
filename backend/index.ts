@@ -7,7 +7,6 @@ import authRoutes from "./routes/auth.routes";
 import { initiailizeSocket } from "./socket/socket";
 
 const PORT = process.env.PORT || 3000;
-
 const app = express();
 
 app.use(express.json());
