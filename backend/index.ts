@@ -4,6 +4,8 @@ import cors from "cors";
 import http from "http";
 import connectDB from "./config/db";
 import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
+import chatRoutes from "./routes/chat.routes";
 import { initiailizeSocket } from "./socket/socket";
 
 const PORT = process.env.PORT || 3000;
@@ -13,6 +15,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server starts.....");
