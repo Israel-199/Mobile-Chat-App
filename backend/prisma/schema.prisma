@@ -1,0 +1,74 @@
+// Prisma Schema for MySQL Database
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  avatar    String   @default("")
+  created   DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  conversations        ConversationParticipant[]
+  createdConversations Conversation[]            @relation("CreatedConversations")
+  messages             Message[]                 @relation("UserMessages")
+
+  @@map("users")
+}
+
+model Conversation {
+  id            String   @id @default(uuid())
+  type          String   @default("direct") // "direct" | "group"
+  name          String?
+  avatar        String?
+  createdById   String?
+  createdBy     User?    @relation("CreatedConversations", fields: [createdById], references: [id], onDelete: SetNull)
+  lastMessageId String?
+  lastMessage   Message? @relation("LastMessage", fields: [lastMessageId], references: [id], onDelete: SetNull)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  participants ConversationParticipant[]
+  messages     Message[]                 @relation("ConversationMessages")
+
+  @@map("conversations")
+}
+
+model ConversationParticipant {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joinedAt       DateTime     @default(now())
+
+  @@unique([conversationId, userId])
+  @@map("conversation_participants")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation("ConversationMessages", fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation("UserMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  content        String       @db.Text
+  type           String       @default("text") // "text" | "image" | "file"
+  attachment     String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  lastMessageInConversations Conversation[] @relation("LastMessage")
+
+  @@map("messages")
+}

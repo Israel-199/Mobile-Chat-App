@@ -1,22 +1,33 @@
-import {Document,Types} from "mongoose";
-
-export interface UsersProps extends Document {
+export interface UsersProps {
+    id?: string;
     email: string;
     password: string;
-    name?: string;
-    avatar?: string;
+    name: string;
+    avatar?: string | null;
     created?: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
-export interface ConversationProps extends Document {
-    _id:Types.ObjectId;
-    type:"direct" | "group";
-    name?: string;
-    participants:Types.ObjectId[];
-    lastMessage?:Types.ObjectId;
-    createdBy?:Types.ObjectId;
-    avatar?:string;
+export interface ConversationProps {
+    id: string;
+    type: "direct" | "group";
+    name?: string | null;
+    avatar?: string | null;
+    createdById?: string | null;
+    lastMessageId?: string | null;
     createdAt: Date;
     updatedAt: Date;
 }
-export {};
+
+export interface MessageProps {
+    id: string;
+    conversationId: string;
+    senderId: string;
+    content: string;
+    type: "text" | "image" | "file";
+    attachment?: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
